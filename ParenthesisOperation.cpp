@@ -438,29 +438,29 @@ public:
 	}
 };
 
-//int _tmain(int argc, _TCHAR* argv[])
-//{
-//	ParenthesisOperation parenthesisOperation;
-//
-//	parenthesisOperation.operate("1.input.txt", "output.1.txt");
-//	parenthesisOperation.operate("2.input.txt", "output.2.txt");
-//	parenthesisOperation.operate("3.input.txt", "output.3.txt");
-//	parenthesisOperation.operate("4.input.txt", "output.4.txt");
-//	parenthesisOperation.operate("5.input.txt", "output.5.txt");
-//	parenthesisOperation.operate("6.input.txt", "output.6.txt");
-//	parenthesisOperation.operate("7.input.txt", "output.7.txt");
-//	parenthesisOperation.operate("8.input.txt", "output.8.txt");
-//	parenthesisOperation.operate("9.input.txt", "output.9.txt");
-//	parenthesisOperation.operate("10.input.txt", "output.10.txt");
-//
-//	Util::checkEqual("1.output.txt", "output.1.txt");
-//	Util::checkEqual("2.output.txt", "output.2.txt");
-//	Util::checkEqual("3.output.txt", "output.3.txt");
-//	Util::checkEqual("4.output.txt", "output.4.txt");
-//	Util::checkEqual("5.output.txt", "output.5.txt");
-//	Util::checkEqual("6.output.txt", "output.6.txt");
-//	Util::checkEqual("7.output.txt", "output.7.txt");
-//	Util::checkEqual("8.output.txt", "output.8.txt");
-//	Util::checkEqual("9.output.txt", "output.9.txt");
-//	Util::checkEqual("10.output.txt", "output.10.txt");
-//}
+int _tmain(int argc, _TCHAR* argv[])
+{
+	ParenthesisOperation parenthesisOperation;
+
+	parenthesisOperation.operate("1.input.txt", "output.1.txt");
+	parenthesisOperation.operate("2.input.txt", "output.2.txt");
+	parenthesisOperation.operate("3.input.txt", "output.3.txt");
+	parenthesisOperation.operate("4.input.txt", "output.4.txt");
+	parenthesisOperation.operate("5.input.txt", "output.5.txt");
+	parenthesisOperation.operate("6.input.txt", "output.6.txt");
+	parenthesisOperation.operate("7.input.txt", "output.7.txt");
+	parenthesisOperation.operate("8.input.txt", "output.8.txt");
+	parenthesisOperation.operate("9.input.txt", "output.9.txt");
+	parenthesisOperation.operate("10.input.txt", "output.10.txt");
+
+	Util::checkEqual("1.output.txt", "output.1.txt");
+	Util::checkEqual("2.output.txt", "output.2.txt");
+	Util::checkEqual("3.output.txt", "output.3.txt");
+	Util::checkEqual("4.output.txt", "output.4.txt");
+	Util::checkEqual("5.output.txt", "output.5.txt");
+	Util::checkEqual("6.output.txt", "output.6.txt");
+	Util::checkEqual("7.output.txt", "output.7.txt");
+	Util::checkEqual("8.output.txt", "output.8.txt");
+	Util::checkEqual("9.output.txt", "output.9.txt");
+	Util::checkEqual("10.output.txt", "output.10.txt");
+}
