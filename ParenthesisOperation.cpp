@@ -32,7 +32,7 @@ public:
 	}
 	
 protected:
-	TreeNode(unsigned int operand) : _Operand(operand)
+	explicit TreeNode(unsigned int operand) : _Operand(operand)
 	{
 	}
 
@@ -44,7 +44,7 @@ private:
 class CompositeNode : public TreeNode
 {
 public:
-	CompositeNode(unsigned int operand) : TreeNode(operand), _Result(0)
+	explicit CompositeNode(unsigned int operand) : TreeNode(operand), _Result(0)
 	{
 	}
 
@@ -96,7 +96,7 @@ private:
 class RootNode : public CompositeNode
 {
 public:
-	RootNode(unsigned int operand) : CompositeNode(operand)
+	explicit RootNode(unsigned int operand) : CompositeNode(operand)
 	{
 	}
 
@@ -123,7 +123,7 @@ public:
 class LeafNode : public TreeNode
 {
 public:
-	LeafNode(unsigned int operand) : TreeNode(operand)
+	explicit LeafNode(unsigned int operand) : TreeNode(operand)
 	{
 	}
 
@@ -218,7 +218,7 @@ public:
 						//리프노드를 생성
 						TreeNode const* const leafNode = nodeFactory.createNode(TreeNode::Leaf, getOperand(symbol));
 						//빌드 스택의 탑노드를 루트로 하는 부분트리 빌드
-						((CompositeNode* const)treeBuildStack.top())->addChild(leafNode);
+						static_cast<CompositeNode* const>(treeBuildStack.top())->addChild(leafNode);
 
 						//다음 심벌은 스킵
 						++characterIndex;
@@ -250,7 +250,7 @@ public:
 				//종료 심볼이면
 				if(isEndingSymbol(symbol) == true)
 				{
-					CompositeNode* const currentSubtTreeRootNodeReadyForBuild = (CompositeNode* const)treeBuildStack.top();
+					CompositeNode* const currentSubtTreeRootNodeReadyForBuild = static_cast<CompositeNode* const>(treeBuildStack.top());
 					//컴포지트 노드와 매치되는 종료 심벌이면
 					if(isMatching(currentSubtTreeRootNodeReadyForBuild, symbol) == true)
 					{
@@ -259,7 +259,7 @@ public:
 						//컴포지트 노드 스택에서 제거
 						treeBuildStack.pop();
 						//빌드 스택의 탑노드를 루트로 하는 
-						((CompositeNode* const)treeBuildStack.top())->addChild(currentSubtTreeRootNodeReadyForBuild);
+						static_cast<CompositeNode* const>(treeBuildStack.top())->addChild(currentSubtTreeRootNodeReadyForBuild);
 					
 					}
 					//그렇지 않다면
@@ -287,7 +287,7 @@ public:
 			//루트 노드라면
 			if(lastNode->getType() == TreeNode::Root)
 			{
-				RootNode* const root = (RootNode* const)lastNode;
+				RootNode* const root = static_cast<RootNode* const>(lastNode);
 				//괄호 심볼 전체합 계산
 				root->compose();
 				//전체합을 얻어옴.
@@ -438,29 +438,29 @@ public:
 	}
 };
 
-int _tmain(int argc, _TCHAR* argv[])
-{
-	ParenthesisOperation parenthesisOperation;
-
-	parenthesisOperation.operate("1.input.txt", "output.1.txt");
-	parenthesisOperation.operate("2.input.txt", "output.2.txt");
-	parenthesisOperation.operate("3.input.txt", "output.3.txt");
-	parenthesisOperation.operate("4.input.txt", "output.4.txt");
-	parenthesisOperation.operate("5.input.txt", "output.5.txt");
-	parenthesisOperation.operate("6.input.txt", "output.6.txt");
-	parenthesisOperation.operate("7.input.txt", "output.7.txt");
-	parenthesisOperation.operate("8.input.txt", "output.8.txt");
-	parenthesisOperation.operate("9.input.txt", "output.9.txt");
-	parenthesisOperation.operate("10.input.txt", "output.10.txt");
-
-	Util::checkEqual("1.output.txt", "output.1.txt");
-	Util::checkEqual("2.output.txt", "output.2.txt");
-	Util::checkEqual("3.output.txt", "output.3.txt");
-	Util::checkEqual("4.output.txt", "output.4.txt");
-	Util::checkEqual("5.output.txt", "output.5.txt");
-	Util::checkEqual("6.output.txt", "output.6.txt");
-	Util::checkEqual("7.output.txt", "output.7.txt");
-	Util::checkEqual("8.output.txt", "output.8.txt");
-	Util::checkEqual("9.output.txt", "output.9.txt");
-	Util::checkEqual("10.output.txt", "output.10.txt");
-}
+//int _tmain(int argc, _TCHAR* argv[])
+//{
+//	ParenthesisOperation parenthesisOperation;
+//
+//	parenthesisOperation.operate("1.input.txt", "output.1.txt");
+//	parenthesisOperation.operate("2.input.txt", "output.2.txt");
+//	parenthesisOperation.operate("3.input.txt", "output.3.txt");
+//	parenthesisOperation.operate("4.input.txt", "output.4.txt");
+//	parenthesisOperation.operate("5.input.txt", "output.5.txt");
+//	parenthesisOperation.operate("6.input.txt", "output.6.txt");
+//	parenthesisOperation.operate("7.input.txt", "output.7.txt");
+//	parenthesisOperation.operate("8.input.txt", "output.8.txt");
+//	parenthesisOperation.operate("9.input.txt", "output.9.txt");
+//	parenthesisOperation.operate("10.input.txt", "output.10.txt");
+//
+//	Util::checkEqual("1.output.txt", "output.1.txt");
+//	Util::checkEqual("2.output.txt", "output.2.txt");
+//	Util::checkEqual("3.output.txt", "output.3.txt");
+//	Util::checkEqual("4.output.txt", "output.4.txt");
+//	Util::checkEqual("5.output.txt", "output.5.txt");
+//	Util::checkEqual("6.output.txt", "output.6.txt");
+//	Util::checkEqual("7.output.txt", "output.7.txt");
+//	Util::checkEqual("8.output.txt", "output.8.txt");
+//	Util::checkEqual("9.output.txt", "output.9.txt");
+//	Util::checkEqual("10.output.txt", "output.10.txt");
+//}
