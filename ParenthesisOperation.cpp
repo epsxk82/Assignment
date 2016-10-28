@@ -3,10 +3,8 @@
 
 #include <stack>
 #include <list>
+#include <stdlib.h>
 using namespace std;
-
-#include <boost/multiprecision/cpp_int.hpp>
-using namespace boost::multiprecision;
 
 class ParenthesisOperation
 {
@@ -24,7 +22,7 @@ public:
 
 public:
 	virtual NodeType getType() const = 0;
-	virtual uint1024_t getResult() const = 0;
+	virtual unsigned int getResult() const = 0;
 
 	unsigned int getOperand() const
 	{
@@ -55,19 +53,20 @@ public:
 
 	virtual void compose() 	
 	{
-		uint1024_t result = 0;
+		unsigned int result = 0;
 
 		list<TreeNode const* const>::const_iterator childLimit = _Children.end();
 		for(list<TreeNode const* const>::const_iterator child = _Children.begin(); child != childLimit; ++child)
 		{
-			result += (*child)->getResult();
+			result += ((*child)->getResult() % 100000000);
 		}
 		result *= getOperand();
+		result = result % 100000000;
 
 		setResult(result);
 	}
 
-	virtual uint1024_t getResult() const
+	virtual unsigned int getResult() const
 	{
 		return _Result;
 	}
@@ -78,7 +77,7 @@ public:
 	}
 
 protected:
-	void setResult(uint1024_t result)
+	void setResult(unsigned int result)
 	{
 		_Result = result;
 	}
@@ -90,7 +89,7 @@ protected:
 
 private:
 	list<TreeNode const* const> _Children;
-	uint1024_t _Result;
+	unsigned int _Result;
 };
 
 class RootNode : public CompositeNode
@@ -102,14 +101,15 @@ public:
 
 	void compose()
 	{
-		uint1024_t result = 0;
+		unsigned int result = 0;
 
 		list<TreeNode const* const> const& children = getChildren();
 		list<TreeNode const* const>::const_iterator childLimit = children.end();
 		for(list<TreeNode const* const>::const_iterator child = children.begin(); child != childLimit; ++child)
 		{
-			result += (*child)->getResult();
+			result += ((*child)->getResult() % 100000000);
 		}
+		result = result % 100000000;
 
 		setResult(result);
 	}
@@ -132,7 +132,7 @@ public:
 		return Leaf; 
 	}
 
-	virtual uint1024_t getResult() const
+	virtual unsigned int getResult() const
 	{
 		return getOperand();
 	}
@@ -190,7 +190,7 @@ class ParenthesisSymbolParser
 {
 public:
 	//파싱하여 괄호연산의 결과를 리턴
-	uint1024_t parse(string const& parenthesisSymbol)
+	unsigned int parse(string const& parenthesisSymbol)
 	{
 		NodeFactory nodeFactory;
 		stack<TreeNode* const> treeBuildStack;
@@ -414,17 +414,18 @@ public:
 			delete [] content;
 
 			ParenthesisSymbolParser parenthesisSymbolParser;
+			char* sumString = new char[9];
 			//각각 괄호 심벌들에 대해
 			vector<string>::size_type parenthesisSymbolTotal = parenthesisSymbolLines.size();
 			for(vector<string>::size_type parenthesisIndex = 1; parenthesisIndex < parenthesisSymbolTotal; ++parenthesisIndex)
 			{
 				//괄호 심벌을 파싱하여 총 누계를 얻어옴.
-				uint1024_t sum = parenthesisSymbolParser.parse(parenthesisSymbolLines[parenthesisIndex]);
-				//누계에 대해 '% 100,000,000' 연산 수행 
-				uint1024_t result = sum % 100000000;
+				unsigned int sum = parenthesisSymbolParser.parse(parenthesisSymbolLines[parenthesisIndex]);
 				
-				results.push_back(result.str());
+				_ultoa_s((unsigned long)sum, sumString, 9, 10);
+				results.push_back(sumString);
 			}
+			delete sumString;
 		}
 
 		return results;
